@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Study Planner &amp; Productivity Dashboard</title>
+    <!-- Font Awesome 6 (free) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <!-- Google Font: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap"
+        rel="stylesheet" />
+    <!-- Main stylesheet -->
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="sidebar" id="sidebar" role="navigation" aria-label="Main navigation">
+        <div class="sidebar-brand">
+            <i class="fas fa-graduation-cap"></i>
+            <span>StudyPlanner</span>
+        </div>
+
+        <nav class="sidebar-nav">
+            <ul>
+                <li class="active" data-section="dashboard">
+                    <a href="#dashboard"><i class="fas fa-th-large"></i> <span>Dashboard</span></a>
+                </li>
+                <li data-section="tasks">
+                    <a href="#tasks"><i class="fas fa-tasks"></i> <span>My Tasks</span></a>
+                </li>
+                <li data-section="progress">
+                    <a href="#progress"><i class="fas fa-chart-line"></i> <span>Progress</span></a>
+                </li>
+                <li data-section="goal">
+                    <a href="#goal"><i class="fas fa-bullseye"></i> <span>Daily Goal</span></a>
+                </li>
+                <li data-section="quotes">
+                    <a href="#quotes"><i class="fas fa-quote-right"></i> <span>Motivation</span></a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="sidebar-footer">
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode">
+                <i class="fas fa-moon"></i> <span>Dark Mode</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main class="main-content" id="mainContent">
+
+        <!-- ===== TOP BAR ===== -->
+        <header class="topbar">
+            <button class="menu-toggle" id="menuToggle" aria-label="Toggle sidebar">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="topbar-right">
+                <div class="datetime" id="datetime">
+                    <i class="far fa-calendar-alt"></i>
+                    <span id="dateDisplay">Loading…</span>
+                    <span class="time-sep">|</span>
+                    <i class="far fa-clock"></i>
+                    <span id="timeDisplay">--:--</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- ===== SECTIONS ===== -->
+
+        <!-- DASHBOARD -->
+        <section id="dashboard" class="section active">
+            <div class="section-header">
+                <h1><i class="fas fa-th-large"></i> Dashboard</h1>
+                <p>Welcome back! Here's your study overview.</p>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background:#e8f0fe; color:#4a6cf7;">
+                        <i class="fas fa-list-ul"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Total Tasks</span>
+                        <span class="stat-value" id="totalTasks">0</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background:#e6f7e6; color:#2ecc71;">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Completed</span>
+                        <span class="stat-value" id="completedTasks">0</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background:#fef3e2; color:#f39c12;">
+                        <i class="fas fa-hourglass-half"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Pending</span>
+                        <span class="stat-value" id="pendingTasks">0</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background:#fde8e8; color:#e74c3c;">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">High Priority</span>
+                        <span class="stat-value" id="highPriorityTasks">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Progress & Quick Actions -->
+            <div class="dashboard-grid">
+                <div class="card progress-card">
+                    <h3><i class="fas fa-chart-pie"></i> Overall Progress</h3>
+                    <div class="progress-ring-wrapper">
+                        <div class="progress-ring" id="progressRing">
+                            <svg viewBox="0 0 120 120">
+                                <circle cx="60" cy="60" r="54" fill="none" stroke="#e9ecef" stroke-width="10" />
+                                <circle cx="60" cy="60" r="54" fill="none" stroke="#6C63FF" stroke-width="10"
+                                    stroke-linecap="round" stroke-dasharray="339.292" stroke-dashoffset="339.292"
+                                    id="progressCircle" />
+                            </svg>
+                            <div class="progress-text">
+                                <span id="progressPercent">0%</span>
+                                <small>complete</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="progress-details">
+                        <span id="progressDetail">0 of 0 tasks done</span>
+                    </div>
+                </div>
+
+                <div class="card quick-card">
+                    <h3><i class="fas fa-bolt"></i> Quick Actions</h3>
+                    <div class="quick-actions">
+                        <button class="btn btn-primary" onclick="navigateTo('tasks')">
+                            <i class="fas fa-plus"></i> Add Task
+                        </button>
+                        <button class="btn btn-secondary" onclick="navigateTo('goal')">
+                            <i class="fas fa-flag"></i> Set Goal
+                        </button>
+                        <button class="btn btn-outline" id="newQuoteBtn">
+                            <i class="fas fa-quote-left"></i> New Quote
+                        </button>
+                    </div>
+                    <div class="quote-mini" id="quoteMini">
+                        <i class="fas fa-quote-left"></i>
+                        <span id="miniQuote">Click for inspiration</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TASKS -->
+        <section id="tasks" class="section">
+            <div class="section-header">
+                <h1><i class="fas fa-tasks"></i> My Tasks</h1>
+                <p>Manage your study tasks with priorities.</p>
+            </div>
+
+            <!-- Task Form -->
+            <div class="card task-form-card">
+                <h3><i class="fas fa-pen"></i> <span id="taskFormTitle">Add New Task</span></h3>
+                <form id="taskForm">
+                    <input type="hidden" id="taskId" value="" />
+                    <div class="form-group">
+                        <label for="taskTitle">Task Title</label>
+                        <input type="text" id="taskTitle" placeholder="e.g. Read chapter 5" required />
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="taskPriority">Priority</label>
+                            <select id="taskPriority">
+                                <option value="High">🔴 High</option>
+                                <option value="Medium" selected>🟡 Medium</option>
+                                <option value="Low">🟢 Low</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="taskDate">Due Date</label>
+                            <input type="date" id="taskDate" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="taskDesc">Description (optional)</label>
+                        <textarea id="taskDesc" rows="2" placeholder="Add details…"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary" id="taskSubmitBtn">
+                            <i class="fas fa-save"></i> Save Task
+                        </button>
+                        <button type="reset" class="btn btn-outline" id="taskCancelBtn" style="display:none;">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Task List -->
+            <div class="card task-list-card">
+                <div class="task-list-header">
+                    <h3><i class="fas fa-list"></i> Your Tasks</h3>
+                    <div class="task-filters">
+                        <button class="filter-btn active" data-filter="all">All</button>
+                        <button class="filter-btn" data-filter="High">🔴 High</button>
+                        <button class="filter-btn" data-filter="Medium">🟡 Medium</button>
+                        <button class="filter-btn" data-filter="Low">🟢 Low</button>
+                        <button class="filter-btn" data-filter="completed">✅ Done</button>
+                    </div>
+                </div>
+                <div id="taskList" class="task-list">
+                    <div class="empty-state">
+                        <i class="fas fa-inbox"></i>
+                        <p>No tasks yet. Add your first study task!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROGRESS -->
+        <section id="progress" class="section">
+            <div class="section-header">
+                <h1><i class="fas fa-chart-line"></i> Progress Tracker</h1>
+                <p>Visualise your study journey.</p>
+            </div>
+
+            <div class="progress-full-grid">
+                <div class="card progress-big-card">
+                    <h3>Completion Overview</h3>
+                    <div class="progress-big-ring">
+                        <svg viewBox="0 0 160 160">
+                            <circle cx="80" cy="80" r="70" fill="none" stroke="#e9ecef" stroke-width="12" />
+                            <circle cx="80" cy="80" r="70" fill="none" stroke="#6C63FF" stroke-width="12"
+                                stroke-linecap="round" stroke-dasharray="439.823" stroke-dashoffset="439.823"
+                                id="progressBigCircle" />
+                        </svg>
+                        <div class="progress-big-text">
+                            <span id="progressBigPercent">0%</span>
+                            <small>complete</small>
+                        </div>
+                    </div>
+                    <div class="progress-stats">
+                        <div><span class="dot completed-dot"></span> Completed: <strong id="pCompleted">0</strong></div>
+                        <div><span class="dot pending-dot"></span> Pending: <strong id="pPending">0</strong></div>
+                        <div><span class="dot total-dot"></span> Total: <strong id="pTotal">0</strong></div>
+                    </div>
+                </div>
+
+                <div class="card priority-breakdown">
+                    <h3>Priority Breakdown</h3>
+                    <div class="priority-bar">
+                        <div class="priority-item">
+                            <span>🔴 High</span>
+                            <div class="bar-track">
+                                <div class="bar-fill high-fill" id="highFill" style="width:0%;"></div>
+                            </div>
+                            <span id="highCount">0</span>
+                        </div>
+                        <div class="priority-item">
+                            <span>🟡 Medium</span>
+                            <div class="bar-track">
+                                <div class="bar-fill medium-fill" id="mediumFill" style="width:0%;"></div>
+                            </div>
+                            <span id="mediumCount">0</span>
+                        </div>
+                        <div class="priority-item">
+                            <span>🟢 Low</span>
+                            <div class="bar-track">
+                                <div class="bar-fill low-fill" id="lowFill" style="width:0%;"></div>
+                            </div>
+                            <span id="lowCount">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DAILY GOAL -->
+        <section id="goal" class="section">
+            <div class="section-header">
+                <h1><i class="fas fa-bullseye"></i> Daily Study Goal</h1>
+                <p>Set a daily target and track your progress.</p>
+            </div>
+
+            <div class="goal-grid">
+                <div class="card goal-set-card">
+                    <h3><i class="fas fa-edit"></i> Set Your Goal</h3>
+                    <form id="goalForm">
+                        <div class="form-group">
+                            <label for="goalHours">Target Study Hours</label>
+                            <input type="number" id="goalHours" min="0.5" max="12" step="0.5" placeholder="e.g. 3"
+                                required />
+                        </div>
+                        <div class="form-group">
+                            <label for="goalMinutes">Minutes studied today</label>
+                            <input type="number" id="goalMinutes" min="0" max="720" step="5" placeholder="e.g. 45" />
+                        </div>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save Goal</button>
+                    </form>
+                    <div class="goal-current" id="goalCurrent">
+                        <p><strong>Current goal:</strong> <span id="goalDisplay">Not set</span></p>
+                        <p><strong>Today's study:</strong> <span id="goalProgressDisplay">0 min</span></p>
+                    </div>
+                </div>
+
+                <div class="card goal-progress-card">
+                    <h3><i class="fas fa-chart-simple"></i> Goal Progress</h3>
+                    <div class="goal-ring-wrapper">
+                        <svg viewBox="0 0 140 140">
+                            <circle cx="70" cy="70" r="60" fill="none" stroke="#e9ecef" stroke-width="10" />
+                            <circle cx="70" cy="70" r="60" fill="none" stroke="#4ECDC4" stroke-width="10"
+                                stroke-linecap="round" stroke-dasharray="376.991" stroke-dashoffset="376.991"
+                                id="goalCircle" />
+                        </svg>
+                        <div class="goal-ring-text">
+                            <span id="goalPercent">0%</span>
+                            <small>of daily goal</small>
+                        </div>
+                    </div>
+                    <div class="goal-detail-text">
+                        <span id="goalDetail">0 min / 0 min</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MOTIVATION -->
+        <section id="quotes" class="section">
+            <div class="section-header">
+                <h1><i class="fas fa-quote-right"></i> Motivation</h1>
+                <p>Stay inspired with daily quotes.</p>
+            </div>
+
+            <div class="quote-full-card card">
+                <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+                <blockquote id="quoteText">“The secret of getting ahead is getting started.”</blockquote>
+                <cite id="quoteAuthor">— Mark Twain</cite>
+                <button class="btn btn-primary" id="refreshQuoteBtn"><i class="fas fa-sync-alt"></i> New Quote</button>
+            </div>
+
+            <div class="quote-extra card">
+                <h3><i class="fas fa-lightbulb"></i> Study Tip</h3>
+                <p id="studyTip">Break your study sessions into 25-minute focused blocks with 5-minute breaks. (Pomodoro
+                    technique)</p>
+                <button class="btn btn-outline" id="newTipBtn"><i class="fas fa-random"></i> New Tip</button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+</body>
+
+</html>
